@@ -65,31 +65,32 @@ dependencies {
 
 
     // room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.room.runtime)
+    kapt( libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     // hilt
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.fragment)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // Coil
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation(libs.coil.compose)
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation(libs.androidx.navigation.compose)
 
     // Mockk
-    testImplementation("io.mockk:mockk:1.13.8")
-    androidTestImplementation("io.mockk:mockk-android:1.13.8")
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
 }
 
 kapt {
