@@ -4,6 +4,7 @@ package com.example.newsapp.presentation.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -26,12 +28,15 @@ import com.example.newsapp.data.model.Article
 @Composable
 fun NewsCard(
     article: Article,
-    isBookmarked : Boolean = false
+    isBookmarked : Boolean = false,
+    click :() -> Unit
 ) {
     Box(
         modifier = Modifier
             .padding(5.dp)
             .border(3.dp, MaterialTheme.colorScheme.secondary, MaterialTheme.shapes.medium)
+            .clickable { click() }
+            .testTag("NewsCard")
     ) {
         val image = article.urlToImage
 
@@ -41,7 +46,8 @@ fun NewsCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(5.dp)
-                .height(200.dp),
+                .height(200.dp)
+                .testTag("image"),
             contentScale = ContentScale.Crop
 
         )
@@ -65,12 +71,15 @@ fun NewsCard(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(5.dp),
+                            .padding(5.dp)
+                            .testTag("title"),
                         style = MaterialTheme.typography.bodyMedium,
                     )
 
 
-                IconButton(onClick = { }) {
+                IconButton(
+                    modifier = Modifier.testTag("Bookmark"),
+                    onClick = { }) {
                     Icon(
                         imageVector = if (isBookmarked) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
                         contentDescription = "Bookmark"

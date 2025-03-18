@@ -17,4 +17,7 @@ interface NewsDao {
 
     @Query("DELETE FROM article")
     suspend fun clearArticles()
+
+    @Query("SELECT * FROM article WHERE TITLE= :title")
+    suspend fun getDataById(title : String) : Article
 }

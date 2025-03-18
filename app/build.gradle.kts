@@ -17,10 +17,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.newsapp.AndroidJUnitRunner"
 
         buildConfigField("String", "API_KEY", "")
-        buildConfigField("String", "BASE_URL", "")
+        buildConfigField("String", "BASE_URL", "\"https://newsapi.org/v2/\"")
     }
 
     buildTypes {
@@ -43,6 +43,10 @@ android {
         buildConfig = true
         compose = true
     }
+    packagingOptions {
+        pickFirst("META-INF/LICENSE.md")
+        pickFirst("META-INF/LICENSE-notice.md")
+    }
 }
 
 dependencies {
@@ -62,7 +66,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.android.compiler)
+    testImplementation(libs.kotlinx.coroutines.test)
 
     // room
     implementation(libs.androidx.room.runtime)
@@ -72,7 +78,7 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.fragment)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Retrofit
     implementation(libs.retrofit)

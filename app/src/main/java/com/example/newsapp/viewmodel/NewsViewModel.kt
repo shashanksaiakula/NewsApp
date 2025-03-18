@@ -2,6 +2,9 @@ package com.example.newsapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.newsapp.data.db.NewsDao
+import com.example.newsapp.data.model.Article
 import com.example.newsapp.data.model.HeadLineNews
 import com.example.newsapp.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,11 +15,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val newsRepository: NewsRepository
+    private val newsRepository: NewsRepository,
+    private val newsDao: NewsDao
 ) : ViewModel() {
 
     private val _topHeadlines = MutableStateFlow<Result<HeadLineNews>>(Result.Loading)
     val topHeadlines: StateFlow<Result<HeadLineNews>> = _topHeadlines
+
+    private val _article = MutableStateFlow<Article?>(null)
+    val article: StateFlow<Article?> = _article
 
     fun getTopHeadlines(country: String, apiKey: String) {
         viewModelScope.launch {
@@ -26,6 +33,7 @@ class NewsViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _topHeadlines.value = Result.Success(it)
+                        newsDao.insertArticles(it.articles)
                     } ?: run {
                         _topHeadlines.value = Result.Error(Exception("Empty response body"))
                     }
@@ -35,6 +43,12 @@ class NewsViewModel @Inject constructor(
             } catch (e: Exception) {
                 _topHeadlines.value = Result.Error(e)
             }
+        }
+    }
+
+    fun getNewDetails(title : String){
+        viewModelScope.launch {
+            _article.value = newsDao.getDataById(title)
         }
     }
 }
